@@ -26,7 +26,7 @@ final class AppRootInteractor: PresentableInteractor<AppRootPresentable>, AppRoo
     presenter.listener = self
   }
   
-  override func didBecomeActive() {
+  override func didBecomeActive() { // 리블렛이 처음 부모에 attach 될 때 실행(viewDidLoad 비슷)
     super.didBecomeActive()
     
     router?.attachTabs()
