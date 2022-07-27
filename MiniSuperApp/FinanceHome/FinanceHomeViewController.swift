@@ -8,15 +8,10 @@ protocol FinanceHomePresentableListener: AnyObject {
 }
 
 final class FinanceHomeViewController: UIViewController, FinanceHomePresentable, FinanceHomeViewControllable {
-    func addDashboard(_ view: ModernRIBs.ViewControllable) {
-        let vc = view.uiviewController
-        addChild(vc)
-        stackView.addArrangedSubview(vc.view)
-        vc.didMove(toParent: self) // view lifecycle에 포함되도록
-    }
     
     weak var listener: FinanceHomePresentableListener?
-    private var stackView: UIStackView {
+    
+    private var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -24,16 +19,15 @@ final class FinanceHomeViewController: UIViewController, FinanceHomePresentable,
         stackView.distribution = .equalSpacing
         stackView.spacing = 4
         return stackView
-    }
+    }()
+    
     init() {
         super.init(nibName: nil, bundle: nil)
-        
         setupViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
         setupViews()
     }
     
@@ -43,7 +37,7 @@ final class FinanceHomeViewController: UIViewController, FinanceHomePresentable,
                                   image: UIImage(systemName: "creditcard"),
                                   selectedImage: UIImage(systemName: "creditcard.fill"))
         
-        view.backgroundColor = .systemBlue
+        view.backgroundColor = .white
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
@@ -51,5 +45,12 @@ final class FinanceHomeViewController: UIViewController, FinanceHomePresentable,
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+    
+    func addDashboard(_ view: ModernRIBs.ViewControllable) {
+        let vc = view.uiviewController
+        addChild(vc)
+        stackView.addArrangedSubview(vc.view)
+        vc.didMove(toParent: self) // view lifecycle에 포함되도록
     }
 }
